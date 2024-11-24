@@ -5,6 +5,8 @@ import com.jgferri.pic_store_backend.respositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
     @Autowired
@@ -13,4 +15,9 @@ public class ProductService {
     public void saveProduct(Product product){
         this.productRepository.save(product);
     }
+
+    public List<Product> getAllProducts(){
+        return this.productRepository.findAll();
+    }
+
 }
