@@ -1,10 +1,8 @@
 package com.jgferri.pic_store_backend.domain.product;
 
+import com.jgferri.pic_store_backend.dtos.ProductDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -14,6 +12,8 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(of="id")
+
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,4 +25,14 @@ public class Product {
     private Boolean offer;
     private BigDecimal price;
     private String picture;
+
+    public Product(ProductDTO data){
+        this.name = data.name();
+        this.description = data.description();
+        this.active = data.active();
+        this.available = data.available();
+        this.offer = data.offer();
+        this.price = data.price();
+        this.picture = data.picture();
+    }
 }
