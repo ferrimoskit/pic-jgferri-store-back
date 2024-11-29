@@ -16,8 +16,8 @@ public class UserService {
         return this.repository.findUserById(id).orElseThrow(()-> new Exception("Nenhum cliente encontrado"));
     }
 
-    public User createUser(@RequestBody UserDTO customer) {
-        User newUser = new User(customer);
+    public User createUser(@RequestBody UserDTO user) {
+        User newUser = new User(user);
         this.saveUser(newUser);
         return newUser;
     }
