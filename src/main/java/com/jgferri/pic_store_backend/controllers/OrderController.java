@@ -17,11 +17,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/orders")
 public class OrderController {
     @Autowired
@@ -38,6 +40,7 @@ public class OrderController {
         Order newOrder = new Order();
         newOrder.setDeliveryAddress(order.deliveryAddress());
         newOrder.setUser(userService.findUserById(order.user()));
+        newOrder.setOrderDate(LocalDateTime.now());
         System.out.println(order);
         List<OrderProduct> orderProducts = new ArrayList<>();
         order.products().forEach(product -> {
