@@ -9,5 +9,5 @@ COPY pom.xml .
 RUN mvn install -DskipTests
 COPY . .
 RUN mvn clean package -DskipTests
-COPY target/*.jar /app/app.jar
+COPY /app/target/*.jar /app/app.jar
 CMD ["java", "-jar", "/app/app.jar"]
