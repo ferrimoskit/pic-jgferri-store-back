@@ -9,5 +9,4 @@ COPY pom.xml .
 RUN mvn install -DskipTests
 COPY . .
 RUN mvn clean package -DskipTests
-COPY target/*.jar /app/app.jar
-CMD ["java", "-jar", "/app/app.jar"]
+CMD ["java", "-jar", "/app/target/pic-store-backend-0.0.1-SNAPSHOT.jar"]
