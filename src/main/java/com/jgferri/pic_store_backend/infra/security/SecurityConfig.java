@@ -1,5 +1,6 @@
 package com.jgferri.pic_store_backend.infra.security;
 
+import com.jgferri.pic_store_backend.infra.CorsConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,16 +20,20 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     @Autowired
     SecurityFilter securityFilter;
+    @Autowired
+    CorsConfig corsConfig;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/orders").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/orders").permitAll()
                         .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST,"/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/products").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
