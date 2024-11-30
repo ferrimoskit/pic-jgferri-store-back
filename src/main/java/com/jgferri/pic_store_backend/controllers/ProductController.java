@@ -44,4 +44,20 @@ public class ProductController {
     public Optional<Product> getProductById(@PathVariable Long id){
         return this.repository.findProductById(id);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateProductById(@PathVariable Long id, @RequestBody ProductDTO product){
+        Optional<Product> existingProductOptional = this.repository.findProductById(id);
+        if(existingProductOptional.isEmpty()) {return new ResponseEntity<>(HttpStatus.BAD_REQUEST);}
+        Product existingProduct = existingProductOptional.get();
+        existingProduct.setName(product.name());
+        existingProduct.setActive(product.active());
+        existingProduct.setAvailable(product.available());
+        existingProduct.setOffer(product.offer());
+        existingProduct.setPicture(product.picture());
+        existingProduct.setDescription(product.description());
+        existingProduct.setPrice(product.price());
+        this.repository.save(existingProduct);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
