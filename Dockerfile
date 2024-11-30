@@ -1,8 +1,13 @@
 FROM openjdk:17-jdk-alpine
-ARG USERNAME
-ARG PASSWORD
-ARG JWT_SECRET
+ARG username
+ARG password
+ARG jwt-secret
 RUN mkdir /app
 WORKDIR /app
+RUN apk update && apk add maven
+COPY pom.xml .
+RUN mvn install -DskipTests
+COPY . .
+RUN mvn clean package -DskipTests
 COPY target/*.jar /app/app.jar
 CMD ["java", "-jar", "/app/app.jar"]
